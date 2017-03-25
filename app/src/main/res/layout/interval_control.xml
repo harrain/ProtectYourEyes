@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/tb_interval"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="15dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="提示标题：(10字)"
+            android:textColor="#000"
+            android:layout_marginBottom="5dp"
+            android:textSize="25sp" />
+
+        <EditText
+            android:id="@+id/et_interval_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="时间到啦，注意用眼"
+            android:layout_marginBottom="10dp"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:background="@drawable/edit_text_style"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="提示内容：（20字）"
+            android:textColor="#000"
+            android:layout_marginBottom="5dp"
+            android:textSize="25sp" />
+
+        <EditText
+            android:id="@+id/et_interval_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="关爱眼睛，从我做起。\n——许佳佳"
+            android:maxLength="20"
+            android:maxLines="3"
+            android:minLines="3"
+            android:background="@drawable/edit_text_style"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/bt_interval_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:text="提 示 确 定"
+            android:textSize="22sp"
+            android:layout_gravity="end"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="提示图标设置"
+            android:textColor="#000"
+            android:layout_marginBottom="5dp"
+            android:textSize="25sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/takePhoto"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="拍    照"
+                android:textSize="20sp"/>
+            <Button
+                android:id="@+id/chooseFromAlbum"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="相册选取"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+
+
+

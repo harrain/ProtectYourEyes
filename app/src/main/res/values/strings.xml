@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">护眼提醒</string>
+
+    <string name="alarm_vibrate1">震动1</string>
+    <string name="alarm_vibrate2">震动2</string>
+    <string name="alarm_vibrate3">震动3</string>
+    <string name="alarm_vibrate4">震动4</string>
+    <string name="alarm_vibrate5">震动5</string>
+    <string name="alarm_vibrate6">震动6</string>
+
+    <string name="inform_title">时间到啦，休息休息吧</string>
+    <string name="inform_content">健康的身体是革命的本钱，凡事不能一蹴而就</string>
+    <string name="interval_title">work start！</string>
+    <string name="interval_content">拿出百分百的活力，go to work!</string>
+    <string name="start_alarm">开启</string>
+    <string name="close_alarm">关闭</string>
+    <string name="tb_timeset">设置时间和震动</string>
+    <string name="tb_interval">设置工作提醒内容</string>
+    <string name="tb_inform">设置休息提醒内容</string>
+    <string name="title_work">工作计时时间</string>
+    <string name="time_unit">分钟</string>
+    <string name="title_interval">休息间隔时间</string>
+    <string name="title_vibrate_type">震动类型</string>
+    <string name="vibrate">震动</string>
+    <string name="title_inform_work">工作提醒</string>
+    <string name="title_inform_break">休息提醒</string>
+</resources>
