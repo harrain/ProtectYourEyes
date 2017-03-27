@@ -101,6 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_margin="10dp"
+        android:background="@drawable/button_background"
         android:text="确  定"
         android:textSize="22sp" />
 </LinearLayout>

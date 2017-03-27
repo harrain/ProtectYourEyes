@@ -56,6 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
+            android:background="@drawable/button_background"
             android:text="提 示 确 定"
             android:textSize="22sp"
             android:layout_gravity="end"
@@ -78,6 +79,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/button_background"
                 android:text="拍    照"
                 android:textSize="20sp"/>
             <Button
@@ -85,6 +87,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/button_background"
                 android:text="相册选取"
                 android:textSize="20sp"/>
 

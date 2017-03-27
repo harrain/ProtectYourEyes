@@ -1,5 +1,9 @@
 package com.example.protectyoureyes.Activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,6 +27,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +47,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import static com.example.protectyoureyes.R.id.ll;
+
 
 public class MainActivity extends MyActivity implements View.OnClickListener{
 
@@ -55,9 +62,19 @@ public class MainActivity extends MyActivity implements View.OnClickListener{
     private TextView tv_inform_content;
     private SharedPreferences prf;
 
+    private FrameLayout mainFrame, frontFrame, backFrame;
+    private AnimatorSet mRightOutSet;
+    private AnimatorSet mLeftInSet;
+    private boolean mIsShowBack = false;//判断哪面朝上的标志
+
     private boolean isBindedService = false;
     private final String TAG = "MainActivity" ;
     private Context mContext;
+    private CardProvider workTimeProvider;
+    private CardProvider vibrateProvider;
+    private CardProvider workContentProvider;
+    private CardProvider breakTimeProvider;
+    private CardProvider breakContentProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,11 +107,7 @@ public class MainActivity extends MyActivity implements View.OnClickListener{
     private void InitView() {
         bt_start_inform=(FloatingActionButton) findViewById(R.id.bt_start_inform);
         bt_stop_inform=(FloatingActionButton)findViewById(R.id.bt_stop_inform);
-        /*tv_inform_time=(TextView)findViewById(R.id.tv_inform_time);
-        tv_interval_time = (TextView) findViewById(R.id.tv_interval_time);
-        tv_inform_vibrate_type=(TextView)findViewById(R.id.tv_inform_vibrate_type);
-        tv_inform_title=(TextView)findViewById(R.id.tv_inform_title);
-        tv_inform_content=(TextView)findViewById(R.id.tv_inform_content);*/
+
         prf= getSharedPreferences("GlobalData",MODE_PRIVATE);
 
         bt_start_inform.setOnClickListener(this);
@@ -102,7 +115,16 @@ public class MainActivity extends MyActivity implements View.OnClickListener{
         //设置不允许点击“关闭提示”按钮
         bt_stop_inform.setEnabled(false);
 
+        mainFrame = (FrameLayout) findViewById(R.id.mainFrame);
+        frontFrame = (FrameLayout) findViewById(R.id.frontFrame);
+        backFrame = (FrameLayout) findViewById(R.id.backFrame);
+        informContentFrame();
+
         addWorkTimeCardLayout();
+        addBreakTimeCardLayout();
+        addVibrateCardLayout();
+        addWorkContentCardLayout();
+        addBreakContentCardLayout();
     }
 
     @Override
@@ -145,44 +167,31 @@ public class MainActivity extends MyActivity implements View.OnClickListener{
         }
     }
 
-    private void addWorkTimeCardLayout(){
-        LinearLayout ll = (LinearLayout) findViewById(R.id.ll);
+    private void informContentFrame(){
+        backFrame.setVisibility(View.GONE);
+        initAnimator();
+        mainFrame.setClickable(true);
+        mainFrame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //正面朝上
+                if (!mIsShowBack) {
+                    mRightOutSet.setTarget(frontFrame);
+                    mLeftInSet.setTarget(backFrame);
+                    mRightOutSet.start();
+                    mLeftInSet.start();
+                    mIsShowBack = true;
 
-        CardLayout cardLayout = (CardLayout) LayoutInflater.from(mContext).inflate(R.layout.material_text_card,null,false);
-        cardLayout.build(createWorkTimeCard());
+                } else { //背面朝上
+                    mRightOutSet.setTarget(backFrame);
+                    mLeftInSet.setTarget(frontFrame);
+                    mRightOutSet.start();
+                    mLeftInSet.start();
+                    mIsShowBack = false;
 
-        ll.addView(cardLayout);
-    }
-
-    private Card createWorkTimeCard(){
-
-        return new Card.Builder(this)
-                .withProvider(new CardProvider())
-                .setLayout(R.layout.material_text_card)
-                .setTitle(R.string.title_work)
-                .setSubtitle(""+GlobalData.inform_time+getResources().getString(R.string.time_unit))
-                .endConfig()
-                .build();
-    }
-
-    private void addWorkTimeCardLayout(){
-        LinearLayout ll = (LinearLayout) findViewById(R.id.ll);
-
-        CardLayout cardLayout = (CardLayout) LayoutInflater.from(mContext).inflate(R.layout.material_text_card,null,false);
-        cardLayout.build(createWorkTimeCard());
-
-        ll.addView(cardLayout);
-    }
-
-    private Card createWorkTimeCard(){
-
-        return new Card.Builder(this)
-                .withProvider(new CardProvider())
-                .setLayout(R.layout.material_text_card)
-                .setTitle(R.string.title_work)
-                .setSubtitle(""+GlobalData.inform_time+getResources().getString(R.string.time_unit))
-                .endConfig()
-                .build();
+                }
+            }
+        });
     }
 
     private void addWorkTimeCardLayout(){
@@ -196,16 +205,122 @@ public class MainActivity extends MyActivity implements View.OnClickListener{
 
     private Card createWorkTimeCard(){
 
-        return new Card.Builder(this)
-                .withProvider(new CardProvider())
-                .setLayout(R.layout.material_text_card)
+        workTimeProvider = new Card.Builder(this).withProvider(new CardProvider());
+        return workTimeProvider.setLayout(R.layout.material_text_card)
                 .setTitle(R.string.title_work)
-                .setSubtitle(""+GlobalData.inform_time+getResources().getString(R.string.time_unit))
+                .setDescription(""+GlobalData.inform_time+getResources().getString(R.string.time_unit))
                 .endConfig()
                 .build();
     }
 
+    private void addBreakTimeCardLayout(){
+        LinearLayout ll = (LinearLayout) findViewById(R.id.ll_break);
 
+        CardLayout cardLayout = (CardLayout) LayoutInflater.from(mContext).inflate(R.layout.material_text_card,null,false);
+        cardLayout.build(createBreakTimeCard());
+
+        ll.addView(cardLayout);
+    }
+
+    private Card createBreakTimeCard(){
+
+        breakTimeProvider = new Card.Builder(this).withProvider(new CardProvider());
+        return breakTimeProvider.setLayout(R.layout.material_text_card)
+                .setTitle(R.string.title_interval)
+                .setDescription(""+GlobalData.interval_time+getResources().getString(R.string.time_unit))
+                .endConfig()
+                .build();
+    }
+
+    private void addVibrateCardLayout(){
+        LinearLayout ll = (LinearLayout) findViewById(R.id.ll_vibrate);
+
+        CardLayout cardLayout = (CardLayout) LayoutInflater.from(mContext).inflate(R.layout.material_text_card,null,false);
+        cardLayout.build(createVibrateCard());
+
+        ll.addView(cardLayout);
+    }
+
+    private Card createVibrateCard(){
+
+        vibrateProvider = new Card.Builder(this).withProvider(new CardProvider());
+        return vibrateProvider.setLayout(R.layout.material_text_card)
+                .setTitle(R.string.title_vibrate_type)
+                .setDescription(""+getResources().getString(R.string.vibrate)+GlobalData.vibrate_type_number)
+                .endConfig()
+                .build();
+    }
+
+    private void addWorkContentCardLayout(){
+
+        CardLayout cardLayout = (CardLayout) LayoutInflater.from(mContext).inflate(R.layout.material_text_card,null,false);
+        cardLayout.build(createWorkContentCard());
+
+        frontFrame.addView(cardLayout);
+    }
+
+    private Card createWorkContentCard(){
+
+        workContentProvider = new Card.Builder(this).withProvider(new CardProvider());
+        return workContentProvider.setLayout(R.layout.material_text_card)
+                .setTitle(R.string.title_inform_break)
+                .setSubtitle(R.string.inform_title)
+                .setDescription(R.string.inform_content)
+                .endConfig()
+                .build();
+    }
+
+    private void addBreakContentCardLayout(){
+
+        CardLayout cardLayout = (CardLayout) LayoutInflater.from(mContext).inflate(R.layout.material_text_card,null,false);
+        cardLayout.build(createBreakContentCard());
+
+        backFrame.addView(cardLayout);
+    }
+
+    private Card createBreakContentCard(){
+
+        breakContentProvider = new Card.Builder(this).withProvider(new CardProvider());
+        return breakContentProvider.setLayout(R.layout.material_text_card)
+                .setTitle(R.string.title_inform_work)
+                .setSubtitle(R.string.interval_title)
+                .setDescription(R.string.interval_content)
+                .endConfig()
+                .build();
+    }
+
+    private void initAnimator() {
+        mRightOutSet = (AnimatorSet) AnimatorInflater.loadAnimator(mContext, R.animator.anim_out);
+        mLeftInSet = (AnimatorSet) AnimatorInflater.loadAnimator(mContext, R.animator.anim_in);
+
+        //设置点击事件
+        mRightOutSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                //itemView.setClickable(false);
+                if (!mIsShowBack) {
+                    backFrame.setVisibility(View.VISIBLE);
+                }else {
+                    frontFrame.setVisibility(View.VISIBLE);
+                }
+                mainFrame.setClickable(false);
+                super.onAnimationStart(animation);
+            }
+        });
+        mLeftInSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mainFrame.setClickable(true);
+                //itemView.setClickable(true);
+                if (!mIsShowBack) {
+                    backFrame.setVisibility(View.GONE);
+                }else {
+                    frontFrame.setVisibility(View.GONE);
+                }
+                super.onAnimationEnd(animation);
+            }
+        });
+    }
 
     private void initDrawerLayout() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawerLayout);
@@ -290,7 +405,7 @@ public class MainActivity extends MyActivity implements View.OnClickListener{
                         .openInputStream(GlobalData.imageUri));
             }else{
                 Resources res=getResources();
-                GlobalData.inform_bitmap=BitmapFactory.decodeResource(res, R.mipmap.little_robot);
+                GlobalData.inform_bitmap=BitmapFactory.decodeResource(res, R.mipmap.eye);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -301,12 +416,16 @@ public class MainActivity extends MyActivity implements View.OnClickListener{
     @Override
     protected void onStart() {
         super.onStart();
-        /*tv_inform_time.setText(GlobalData.inform_time+"分钟");
-        tv_interval_time.setText(GlobalData.interval_time+"分钟");
-        tv_inform_vibrate_type.setText(
-                GlobalData.vibrate_type_name[GlobalData.vibrate_type_number]);
-        tv_inform_title.setText(GlobalData.inform_title);
-        tv_inform_content.setText(GlobalData.inform_content);*/
+
+        workTimeProvider.setDescription(""+GlobalData.inform_time+getResources().getString(R.string.time_unit));
+        String btDes = ""+GlobalData.interval_time+getResources().getString(R.string.time_unit);
+        breakTimeProvider.setDescription(btDes);
+        String vibDes = ""+getResources().getString(R.string.vibrate)+GlobalData.vibrate_type_number;
+        vibrateProvider.setDescription(vibDes);
+        workContentProvider.setSubtitle(GlobalData.inform_title);
+        workContentProvider.setDescription(GlobalData.inform_content);
+        breakContentProvider.setSubtitle(GlobalData.interval_title);
+        breakContentProvider.setDescription(GlobalData.interval_content);
 
         if (isServiceRunning(this,"com.example.protectyoureyes.Service.LongRunningService")){
 

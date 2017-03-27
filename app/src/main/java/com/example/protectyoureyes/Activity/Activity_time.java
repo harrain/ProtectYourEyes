@@ -3,7 +3,9 @@ package com.example.protectyoureyes.Activity;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,6 +40,7 @@ public class Activity_time extends MyActivity {
     protected void initToolbar(int id) {
         super.initToolbar(id);
         toolbar.setTitle(R.string.tb_timeset);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
@@ -62,6 +65,12 @@ public class Activity_time extends MyActivity {
                 setMyTime();
                 setMyVibrateType();
                 Toast.makeText(Activity_time.this, "设置成功！", Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                },1000);
             }
         });
 
@@ -98,5 +107,13 @@ public class Activity_time extends MyActivity {
         editor.commit();
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,9 +54,18 @@ public class Activity_inform extends MyActivity {
     protected void initToolbar(int id) {
         super.initToolbar(id);
         toolbar.setTitle(R.string.tb_inform);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void InitView() {
         et_inform_title = (EditText) findViewById(R.id.et_inform_title);

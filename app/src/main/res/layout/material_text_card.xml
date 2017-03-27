@@ -19,7 +19,16 @@
 
             <include layout="@layout/headline_16dp"/>
 
-            <include layout="@layout/supporting_text_16dp"/>
+            <TextView
+                android:id="@+id/supportingText"
+                android:textSize="18sp"
+                android:textColor="@android:color/darker_gray"
+                android:gravity="center_vertical|left"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

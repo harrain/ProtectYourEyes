@@ -59,7 +59,7 @@ public class LongRunningService extends Service {
 			Notification notification = null;
 			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
 				Notification.Builder builder = new Notification.Builder(this);
-				builder.setSmallIcon(R.mipmap.little_robot);
+				builder.setSmallIcon(R.mipmap.eye);
 				builder.setLargeIcon(GlobalData.inform_bitmap);
 				if (GlobalData.alarmType) {
 					builder.setContentTitle(GlobalData.inform_title);
