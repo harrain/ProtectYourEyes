@@ -9,5 +9,5 @@
 
 - - -
 
- ![APP动图]("/capture/protectyoureyes.gif")
+ ![APP动图](/capture/protectyoureyes.gif)
 
