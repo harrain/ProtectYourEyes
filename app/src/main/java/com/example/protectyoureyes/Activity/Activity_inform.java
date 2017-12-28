@@ -68,7 +68,7 @@ public class Activity_inform extends MyActivity {
         et_inform_title.setText(GlobalData.inform_title);
         et_inform_content.setText(GlobalData.inform_content);
 
-        //点击确认按钮后，把提示标题和内容都用sharopreference存储，并且把他们复制给全局变量
+        //点击确认按钮后，把提示标题和内容都用sharedpreference存储，并且把他们复制给全局变量
         bt_inform_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +81,7 @@ public class Activity_inform extends MyActivity {
                 editor.putString("inform_content", content);
                 editor.commit();
                 Toast.makeText(Activity_inform.this, "设置成功！", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
         //设置提示图片

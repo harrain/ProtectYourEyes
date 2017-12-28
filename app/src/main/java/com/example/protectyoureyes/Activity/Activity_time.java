@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.protectyoureyes.Constants;
 import com.example.protectyoureyes.MyActivity;
 import com.example.protectyoureyes.R;
 import com.example.protectyoureyes.My_View.TitleLayout;
@@ -61,7 +62,9 @@ public class Activity_time extends MyActivity {
                 //设置振动类型
                 setMyTime();
                 setMyVibrateType();
+                Constants.TIMESET_CHANGED = true;
                 Toast.makeText(Activity_time.this, "设置成功！", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 

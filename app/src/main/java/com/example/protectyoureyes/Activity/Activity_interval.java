@@ -169,6 +169,7 @@ public class Activity_interval extends MyActivity {
                     GlobalData.interval_bitmap = BitmapFactory.decodeStream(getContentResolver()
                             .openInputStream(GlobalData.imageUri));
                     Toast.makeText(Activity_interval.this, "图片设置成功", Toast.LENGTH_SHORT).show();
+                    finish();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }

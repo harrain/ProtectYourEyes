@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
 
     <application
         android:name=".BaseApplication"
@@ -27,7 +28,6 @@
 
         <receiver android:name=".Service.AlarmReceiver"></receiver>
 
-        <activity android:name=".MyActivity"></activity>
     </application>
 
 </manifest>

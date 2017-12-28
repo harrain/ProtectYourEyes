@@ -12,9 +12,9 @@ import java.io.File;
 // 保存振动类型、文段内容
 public class GlobalData {
     //时间默认设置为55分钟
-    public static int inform_time = 55;
+    public static long inform_time = 55;
     //休息间隔时间默认设置为10分钟
-    public static int interval_time = 10;
+    public static long interval_time = 10;
     //当前振动类型的序号
     public static int vibrate_type_number = 4;
     //振动的类型的long数组
@@ -27,7 +27,7 @@ public class GlobalData {
             {0, 200, 200, 200, 200, 1000, 200, 200, 200, 200, 200, 1000, 200, 200, 200, 200, 200, 1000}
     };
     //振动类型的名字
-    public static String[] vibrate_type_name = {UiUtil.getString(R.string.alarm_vibrate1),
+    public static String[] vibrate_type_name = {"震动1",
             UiUtil.getString(R.string.alarm_vibrate2), UiUtil.getString(R.string.alarm_vibrate3),
             UiUtil.getString(R.string.alarm_vibrate4), UiUtil.getString(R.string.alarm_vibrate5),
             UiUtil.getString(R.string.alarm_vibrate6)};
