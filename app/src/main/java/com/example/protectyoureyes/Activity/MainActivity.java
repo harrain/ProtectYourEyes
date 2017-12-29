@@ -134,6 +134,17 @@ public class MainActivity extends MyActivity implements View.OnClickListener {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        try {
+
+            if (isBindedService)   unbindService(serviceConnection);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private void refreshCards() {
         Card card = cardLayoutWorkTime.getCard();
         card.getProvider().setDescription(GlobalData.inform_time + getResources().getString(R.string.time_unit));
@@ -195,7 +206,10 @@ public class MainActivity extends MyActivity implements View.OnClickListener {
         }
 
         SharedPreferenceUtil.getInstance().setTiming(false);
+        try {
+
         if (isBindedService)   unbindService(serviceConnection);
+        }catch (Exception e){e.printStackTrace();}
 
         stopService(intent);
         bt_start_inform.setVisibility(View.VISIBLE);
@@ -450,9 +464,7 @@ public class MainActivity extends MyActivity implements View.OnClickListener {
 
     @Override
     protected void onDestroy() {
-        if (isBindedService) {
-            unbindService(serviceConnection);
-        }
+
         super.onDestroy();
         Log.i(TAG, "destroy");
     }
